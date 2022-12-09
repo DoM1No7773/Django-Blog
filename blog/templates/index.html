@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if post_list %}
+    <ul>
+    {% for post in post_list %}
+        <li><a href="{% url 'blog:detail' post.id%}">{{ post.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No posts.</p>
+{% endif %}
+
+{% endblock %}
