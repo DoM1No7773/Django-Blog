@@ -2,8 +2,17 @@
 
 {% block body %}
 
-<h2>{{ post.id}}</h2>
 <p>{{ post.title }}</p>
+<b>{{ post.created_by}} | {{ post.created_at}}</b>
 <p>{{ post.details}}</p>
+
+{% if comment_list %}
+    {% for comment in comment_list %}
+        <strong>{{comment.created_by}}</strong>
+        <h5>{{ comment.content }}</h5>
+    {% endfor %}
+{% else %}
+    <p>No comments.</p>
+{% endif %}
 
 {% endblock %}
