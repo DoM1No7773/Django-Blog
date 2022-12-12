@@ -2,20 +2,36 @@
 
 {% block body %}
 
-<p>{{ post.title }}</p>
-<b>{{ post.created_by}} | {{ post.created_at}}</b>
-<p>{{ post.details}}</p>
+<figure style="margin: 1rem;">
+    <blockquote class="blockquote">
+      <p>{{ post.title }}</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      created by<cite title="Source Title"> {{ post.created_by}}</cite> | {{ post.created_at}}
+    </figcaption>
+</figure>
+
+<div class="card" style="margin: 1rem;">
+    <div class="card-body">
+        <p class="card-text">{{ post.details}}</p>
+    </div>
+</div>
+
 
 {% if user == post.created_by%}
-    <a href="update/">update</a>
 
-    <form action="delete/" method="post">
+    <form class="Postbtns" action="update/">
+        <button type="submit" class="btn btn-success">update post</button>
+    </form>
+    
+
+    <form class="Postbtns" action="delete/" method="post">
         {% csrf_token %}
-        <button type="submit">delete</button>
+        <button type="submit" class="btn btn-danger">delete post</button>
     </form>
 {% endif%}
 
-
+<div id="addComment">
 {% if user.is_authenticated %}
 <form action="" method="POST">
     {% csrf_token %}
@@ -24,22 +40,27 @@
     <button type="submit">comment</button>
 </form>
 {% else%}
-<p>login to comment --> <a href="/login/?next=/{{ post.id }}/">login</a></p>
+<p style="margin: 1rem;"><a href="/login/?next=/{{ post.id }}/">login</a> to comment</p>
 {% endif %}
+</div>
 
 {% if comment_list %}
     {% for comment in comment_list %}
-        <strong>{{comment.created_by}}</strong>
-        <h5>{{ comment.content }}</h5>
-        {% if user.is_authenticated %}
-        <form action="deleteComment/{{ comment.id}}/" method="post">
-            {% csrf_token %}
-            <button type="submit">delete</button>
-        </form>
-        {% endif%}
+    <div class="card" style="margin: 2rem;">
+        <div class="card-body">
+          <h6 class="card-title">{{ comment.created_by }} | {{ comment.created_at }}</h6>
+          <p class="card-text">{{ comment.content}}</p>
+            {% if user == comment.created_by%}
+                <form action="deleteComment/{{ comment.id}}/" method="post" class="Postbtns" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">delete comment</button>
+                </form>
+            {% endif%}
+        </div>
+    </div>
     {% endfor %}
 {% else %}
-    <p>No comments.</p>
+    <p style="margin: 1rem;">No comments.</p>
 {% endif %}
 
 {% endblock %}

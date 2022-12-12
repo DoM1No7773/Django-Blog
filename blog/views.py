@@ -28,6 +28,7 @@ def detail(request, post_id):
 
     try:
         comment_list = Comment.objects.filter(post=post)
+        comment_list = comment_list.order_by('-created_at')
     except Comment.DoesNotExist:
         return render(request, 'detail.html', {'post': post})
     return render(request, 'detail.html', {'post': post,'comment_list':comment_list,'form':form})

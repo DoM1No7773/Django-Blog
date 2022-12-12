@@ -2,14 +2,25 @@
 
 {% block body %}
 
-{% if post_list %}
-    <ul>
-    {% for post in post_list %}
-        <li><a href="{% url 'blog:detail' post.id%}">{{ post.title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No posts.</p>
+{% if user.is_authenticated %}
+    <h5 style="margin: 1rem;padding: 0.5rem;">Hello, {{ user.username }}</h5>
 {% endif %}
 
-{% endblock %}
+{% if post_list %}
+    {% for post in post_list %}
+    <a href="{% url 'blog:detail' post.id%}">
+        <div class="card" style="margin: 1rem;">
+        
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ post.created_at}}</h6>
+            </div>
+        
+        </div>
+    </a>
+    {% endfor %}
+{% else %}
+    <h5>No posts</h5>
+{% endif %}
+
+{% endblock %} 
