@@ -6,6 +6,27 @@
 <b>{{ post.created_by}} | {{ post.created_at}}</b>
 <p>{{ post.details}}</p>
 
+{% if user == post.created_by%}
+    <a href="update/">update</a>
+
+    <form action="delete/" method="post">
+        {% csrf_token %}
+        <button type="submit">delete</button>
+    </form>
+{% endif%}
+
+
+{% if user.is_authenticated %}
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="hidden" name="post" value="{{ post.id }}">
+    <button type="submit">comment</button>
+</form>
+{% else%}
+<p>login to comment --> <a href="/login/?next=/{{ post.id }}/">login</a></p>
+{% endif %}
+
 {% if comment_list %}
     {% for comment in comment_list %}
         <strong>{{comment.created_by}}</strong>
