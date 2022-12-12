@@ -31,6 +31,12 @@
     {% for comment in comment_list %}
         <strong>{{comment.created_by}}</strong>
         <h5>{{ comment.content }}</h5>
+        {% if user.is_authenticated %}
+        <form action="deleteComment/{{ comment.id}}/" method="post">
+            {% csrf_token %}
+            <button type="submit">delete</button>
+        </form>
+        {% endif%}
     {% endfor %}
 {% else %}
     <p>No comments.</p>

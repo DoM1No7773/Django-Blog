@@ -9,7 +9,7 @@ from .models import Post,Comment
 
 # Create your views here.
 def index(request):
-    post_list = Post.objects.order_by('created_at')[:5]
+    post_list = Post.objects.order_by('-created_at')
     context = {'post_list': post_list}
     return render(request, 'index.html', context)
 
@@ -19,6 +19,7 @@ def detail(request, post_id):
         comment = form.save(commit=False)
         comment.post = get_object_or_404(Post, pk=request.POST.get('post'))
         comment.created_by = request.user
+        comment.created_at = datetime.datetime.now()
         comment.save()
     else:
         form = forms.CreateComment
@@ -107,3 +108,12 @@ def deletePost(request,post_id):
         post.delete()
 
     return redirect('blog:index')
+
+@login_required(login_url="/login/")
+def deleteComment(request,comment_id,post_id):
+
+    if request.method == "POST":
+        comment = get_object_or_404(Comment,pk=comment_id)
+        comment.delete()
+
+    return redirect('/'+str(post_id)+'/')
