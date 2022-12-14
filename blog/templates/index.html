@@ -3,7 +3,7 @@
 {% block body %}
 
 {% if user.is_authenticated %}
-    <h5 style="margin: 1rem;padding: 0.5rem;">Hello, {{ user.username }}</h5>
+    <h3 style="margin: 1rem;padding: 0.5rem;">Hello, {{ user.username }}</h3>
 {% endif %}
 
 {% if post_list %}
@@ -20,7 +20,7 @@
     </a>
     {% endfor %}
 {% else %}
-    <h5>No posts</h5>
+    <h5 style="margin: 1rem;">No posts</h5>
 {% endif %}
 
 {% endblock %} 

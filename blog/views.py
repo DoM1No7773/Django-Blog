@@ -93,7 +93,7 @@ def updatePost(request,post_id):
             post.title = data['title']
             post.details = data['details']
             post.save()
-            return redirect('blog:index')
+            return redirect('/'+str(post_id)+'/')
     else:
         form.fields['title'].initial = post.title
         form.fields['details'].initial = post.details
