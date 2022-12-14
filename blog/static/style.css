@@ -46,3 +46,7 @@ body{
     display: inline;
     margin: 1rem;
   }
+
+  a:link{
+    text-decoration: none;
+  }
